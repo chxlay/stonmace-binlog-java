@@ -7,7 +7,7 @@ import com.stonmace.common.binlog.core.message.BinlogMessage;
  * 删除表事件 消息解析
  *
  * @author Alay
- * @date 2022-11-14 17:17
+ * @since 2022-11-14 17:17
  */
 public class DropEventParser implements BinlogEventParser<QueryEventData, BinlogMessage> {
     private static final String ACTION = "DROP";
@@ -17,7 +17,7 @@ public class DropEventParser implements BinlogEventParser<QueryEventData, Binlog
         // DROP TABLE IF EXISTS `t_student`
         String tableName = this.parseTableName(event.getSql());
         // 暂时没有过多的数据封装
-        return BinlogMessage.build()
+        return BinlogMessage.create()
                 .sql(event.getSql())
                 .schema(event.getDatabase())
                 .tableName(tableName)

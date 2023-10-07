@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  * Binlog 监听器启动开关
  *
  * @author Alay
- * @date 2022-11-14 16:24
+ * @since 2022-11-14 16:24
  */
 @Documented
 @Target(value = ElementType.TYPE)

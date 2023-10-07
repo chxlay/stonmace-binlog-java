@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * 启动时事件顺序：ROTATE、FORMAT_DESCRIPTION
  *
  * @author Alay
- * @date 2022-11-15 10:51
+ * @since 2022-11-15 10:51
  */
 public class EventRotateProcess implements BinlogEventProcess<RotateEventData> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

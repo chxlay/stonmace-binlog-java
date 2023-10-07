@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Binlog 监听到的数据实体类
  *
  * @author Alay
- * @date 2022-11-14 13:18
+ * @since 2022-11-14 13:18
  */
 @Getter
 @ToString
@@ -40,7 +40,7 @@ public class BinlogMessage implements Serializable {
      */
     private String action;
 
-    public static BinlogMessage build() {
+    public static BinlogMessage create() {
         return new BinlogMessage();
     }
 

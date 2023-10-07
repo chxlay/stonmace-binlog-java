@@ -7,7 +7,7 @@ import com.stonmace.common.binlog.core.message.BinlogMessage;
  * 创建表事件消息解析
  *
  * @author Alay
- * @date 2022-11-14 17:16
+ * @since 2022-11-14 17:16
  */
 public class CreateEventParser implements BinlogEventParser<QueryEventData, BinlogMessage> {
     private static final String ACTION = "CREATE";
@@ -18,7 +18,7 @@ public class CreateEventParser implements BinlogEventParser<QueryEventData, Binl
         // 解析表名
         String tableName = this.parseTableName(event.getSql());
         // 暂时没有过多的数据封装
-        return BinlogMessage.build()
+        return BinlogMessage.create()
                 .sql(event.getSql())
                 .schema(event.getDatabase())
                 .tableName(tableName)

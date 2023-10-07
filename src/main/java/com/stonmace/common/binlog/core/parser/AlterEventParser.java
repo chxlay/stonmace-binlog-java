@@ -7,7 +7,7 @@ import com.stonmace.common.binlog.core.message.BinlogMessage;
  * 修改消息解析器
  *
  * @author Alay
- * @date 2022-11-14 17:02
+ * @since 2022-11-14 17:02
  */
 public class AlterEventParser implements BinlogEventParser<QueryEventData, BinlogMessage> {
     private static final String ACTION = "ALTER";
@@ -23,7 +23,7 @@ public class AlterEventParser implements BinlogEventParser<QueryEventData, Binlo
          */
         String tableName = this.parseTableName(event.getSql());
 
-        return BinlogMessage.build()
+        return BinlogMessage.create()
                 .schema(event.getDatabase())
                 .tableName(tableName)
                 .sql(event.getSql()).action(ACTION);

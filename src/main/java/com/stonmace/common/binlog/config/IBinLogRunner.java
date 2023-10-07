@@ -20,7 +20,7 @@ import java.util.Map;
  * Binlog 启动运行
  *
  * @author Alay
- * @date 2022-11-14 13:28
+ * @since 2022-11-14 13:28
  */
 @RequiredArgsConstructor
 public class IBinLogRunner implements CommandLineRunner {
@@ -61,11 +61,12 @@ public class IBinLogRunner implements CommandLineRunner {
     }
 
     /**
+     * 如果没有这个需求可以忽略这部分
      * 源码中的注册事件类型（这里自定义编写了 bit --> Boolean 的反系列化规则）
      *
      * @param eventDataDeserializers
      * @param tableMapEventByTableId
-     * @see EventDeserializer 源码中的注册事件类型
+     * @see com.github.shyiko.mysql.binlog.event.deserialization.EventDeserializer 源码中的注册事件类型
      */
     private void registerDefaultEventDataDeserializers(IdentityHashMap<EventType, EventDataDeserializer> eventDataDeserializers, Map<Long, TableMapEventData> tableMapEventByTableId) {
         // 启动完成后 binlog 日志文件信息事件（日志文件索引，日志文件坐标）

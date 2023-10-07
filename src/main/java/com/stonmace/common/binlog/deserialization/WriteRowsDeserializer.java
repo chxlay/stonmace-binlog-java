@@ -13,7 +13,7 @@ import java.util.Map;
  * Java类BitSet 自定义系列化规则
  *
  * @author Alay
- * @date 2022-11-14 13:51
+ * @since 2022-11-14 13:51
  */
 public class WriteRowsDeserializer extends WriteRowsEventDataDeserializer {
 

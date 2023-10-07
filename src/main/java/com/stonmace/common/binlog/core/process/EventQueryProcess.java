@@ -2,7 +2,6 @@ package com.stonmace.common.binlog.core.process;
 
 import com.github.shyiko.mysql.binlog.event.EventType;
 import com.github.shyiko.mysql.binlog.event.QueryEventData;
-import com.stonmace.common.binlog.component.TableSchemaManager;
 import com.stonmace.common.binlog.config.IBinlogProperties;
 import com.stonmace.common.binlog.constant.BinlogConst;
 import com.stonmace.common.binlog.core.message.BinlogMessage;
@@ -11,6 +10,7 @@ import com.stonmace.common.binlog.core.parser.AlterEventParser;
 import com.stonmace.common.binlog.core.parser.CreateEventParser;
 import com.stonmace.common.binlog.core.parser.DropEventParser;
 import com.stonmace.common.binlog.core.parser.RenameEventParser;
+import com.stonmace.common.binlog.core.table.TableSchemaManager;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ import java.util.List;
  * sql='ALTER TABLE `db_name`.`table_name`后面是具体的执行语句
  *
  * @author Alay
- * @date 2022-11-15 11:30
+ * @since 2022-11-15 11:30
  */
 @RequiredArgsConstructor
 public class EventQueryProcess implements BinlogEventProcess<QueryEventData> {
@@ -61,7 +61,7 @@ public class EventQueryProcess implements BinlogEventProcess<QueryEventData> {
             binlogMessage = alterEventParser.parseEvent(eventData);
 
             // 修改表结构,删除缓存
-            tableSchemaManager.removeCache(binlogMessage.getSchema() + "." + binlogMessage.getTableName());
+            tableSchemaManager.removeSchema(binlogMessage.getSchema(), binlogMessage.getTableName());
         }
 
         // 新增表事件
@@ -86,7 +86,7 @@ public class EventQueryProcess implements BinlogEventProcess<QueryEventData> {
             binlogMessage = dropEventParser.parseEvent(eventData);
 
             // 修改表结构,删除缓存
-            tableSchemaManager.removeCache(binlogMessage.getSchema() + "." + binlogMessage.getTableName());
+            tableSchemaManager.removeSchema(binlogMessage.getSchema(), binlogMessage.getTableName());
         }
 
         // 表名重命名 RENAME TABLE `database`.`table_name` TO `database`.`new_table_name`
@@ -98,7 +98,7 @@ public class EventQueryProcess implements BinlogEventProcess<QueryEventData> {
             // RENAME TABLE `database`.`table_name` TO `database`.`new_table_name`
             RenameMessage renameMessage = renameEventParser.parseEvent(eventData);
             // 修改表结构,删除缓存
-            tableSchemaManager.removeCache(renameMessage.getSchema() + "." + renameMessage.getBeforeTable());
+            tableSchemaManager.removeSchema(renameMessage.getSchema(), renameMessage.getBeforeTable());
             binlogMessage = renameMessage;
         }
         // 不是我需要处理的事件,不做处理

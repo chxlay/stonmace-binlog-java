@@ -12,12 +12,12 @@ import java.util.List;
 
 /**
  * @author Alay
- * @date 2023-05-25 12:36
+ * @since 2023-05-25 12:36
  */
 public class DelegatingEventProcess implements BinlogEventProcess<Event> {
 
     private final List<BinlogEventProcess> eventProcesses;
-    private final Comparator<BinlogEventProcess> comparator = comparingInt(BinlogEventProcess::getOrder);
+    private final Comparator<BinlogEventProcess> comparator = Comparator.comparingInt(BinlogEventProcess::getOrder);
 
 
     public DelegatingEventProcess(BinlogEventProcess... processes) {

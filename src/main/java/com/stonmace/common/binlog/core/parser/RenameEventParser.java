@@ -7,7 +7,7 @@ import com.stonmace.common.binlog.core.message.RenameMessage;
  * 重命名表事件 消息解析
  *
  * @author Alay
- * @date 2022-11-14 17:17
+ * @since 2022-11-14 17:17
  */
 public class RenameEventParser implements BinlogEventParser<QueryEventData, RenameMessage> {
     private static final String ACTION = "RENAME";
@@ -18,7 +18,7 @@ public class RenameEventParser implements BinlogEventParser<QueryEventData, Rena
         // DROP TABLE IF EXISTS `t_student`
         String[] tableNameArr = this.parseTableName(event.getSql());
         // 暂时没有过多的数据封装
-        RenameMessage renameMessage = RenameMessage.build()
+        RenameMessage renameMessage = RenameMessage.create()
                 .beforeTable(tableNameArr[0])
                 .afterTable(tableNameArr[1]);
 

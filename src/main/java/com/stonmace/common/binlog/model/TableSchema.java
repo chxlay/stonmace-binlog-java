@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 数据库表结构实体对象
+ *
  * @author Alay
- * @date 2022-11-14 19:20
+ * @since 2022-11-14 19:20
  */
 @Getter
 @Setter
-@Accessors(chain = true, fluent = true)
 public class TableSchema implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
@@ -88,7 +89,7 @@ public class TableSchema implements Serializable {
     }
 
 
-    public static TableSchema build(String dbname, String tableName) {
+    public static TableSchema create(String dbname, String tableName) {
         TableSchema schema = new TableSchema();
         schema.tableSchema = dbname;
         schema.tableName = tableName;

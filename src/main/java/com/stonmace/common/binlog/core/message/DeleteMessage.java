@@ -9,14 +9,14 @@ import java.util.Map;
  * 删除事件消息
  *
  * @author Alay
- * @date 2022-11-14 16:19
+ * @since 2022-11-14 16:19
  */
 @Getter
 public class DeleteMessage extends BinlogMessage {
 
     private Map<String, Serializable> deleteData;
 
-    public static DeleteMessage build() {
+    public static DeleteMessage create() {
         return new DeleteMessage();
     }
 

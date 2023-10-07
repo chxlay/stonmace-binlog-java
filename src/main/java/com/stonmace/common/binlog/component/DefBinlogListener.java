@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * Binlog 默认监听器
  *
  * @author Alay
- * @date 2022-11-14 13:30
+ * @since 2022-11-14 13:30
  */
 @Component
 public class DefBinlogListener implements BinaryLogClient.EventListener {

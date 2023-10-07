@@ -12,7 +12,7 @@ import java.util.Map;
  * 插入数据事件 消息解析
  *
  * @author Alay
- * @date 2022-11-14 17:18
+ * @since 2022-11-14 17:18
  */
 public class InsertEventParser implements BinlogEventParser<WriteRowsEventData, InsertMessage> {
     private static final String ACTION = "INSERT";
@@ -26,12 +26,12 @@ public class InsertEventParser implements BinlogEventParser<WriteRowsEventData, 
         List<Serializable[]> newRows = event.getRows();
 
         // 新增数据记录转 Map
-        Map<String, Serializable> insertData = this.parseTableData2Map(tableSchema.columnNames(), newRows);
+        Map<String, Serializable> insertData = this.parseTableData2Map(tableSchema.getColumnNames(), newRows);
 
-        InsertMessage insertMessage = InsertMessage.build().insertData(insertData);
+        InsertMessage insertMessage = InsertMessage.create().insertData(insertData);
         insertMessage.tableId(event.getTableId())
-                .tableName(tableSchema.tableName())
-                .schema(tableSchema.tableSchema())
+                .tableName(tableSchema.getTableName())
+                .schema(tableSchema.getTableSchema())
                 .action(ACTION);
 
         return insertMessage;

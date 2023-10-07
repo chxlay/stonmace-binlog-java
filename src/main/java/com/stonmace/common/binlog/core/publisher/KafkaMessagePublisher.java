@@ -1,5 +1,6 @@
 package com.stonmace.common.binlog.core.publisher;
 
+
 import com.stonmace.common.binlog.core.message.BinlogMessage;
 
 /**
@@ -7,7 +8,7 @@ import com.stonmace.common.binlog.core.message.BinlogMessage;
  * 注入时 请使用注解 @Primary ,使其优先于 EventMessageSender
  *
  * @author Alay
- * @date 2022-11-17 21:54
+ * @since 2022-11-17 21:54
  */
 public class KafkaMessagePublisher implements MessagePublisher {
 

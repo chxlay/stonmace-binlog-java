@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * 启动时事件顺序：ROTATE、FORMAT_DESCRIPTION
  *
  * @author Alay
- * @date 2022-11-15 10:53
+ * @since 2022-11-15 10:53
  */
 public class EventFormatDescProcess implements BinlogEventProcess<FormatDescriptionEventData> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

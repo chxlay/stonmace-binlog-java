@@ -13,7 +13,7 @@ import java.util.Map;
  * 更新消息解析器
  *
  * @author Alay
- * @date 2022-11-14 17:02
+ * @since 2022-11-14 17:02
  */
 public class UpdateEventParser implements BinlogEventParser<UpdateRowsEventData, UpdateMessage> {
     private static final String ACTION = "UPDATE";
@@ -22,20 +22,20 @@ public class UpdateEventParser implements BinlogEventParser<UpdateRowsEventData,
     public UpdateMessage parseEvent(UpdateRowsEventData event, Object... args) {
         // 表结构
         TableSchema tableSchema = (TableSchema) args[0];
-        List<String> columnNames = tableSchema.columnNames();
+        List<String> columnNames = tableSchema.getColumnNames();
         // 修改前的数据
         List<Map.Entry<Serializable[], Serializable[]>> rows = event.getRows();
         // 解析数据
         Map<String, Serializable>[] maps = this.tableDataParse(columnNames, rows);
 
 
-        UpdateMessage updateMessage = UpdateMessage.build()
+        UpdateMessage updateMessage = UpdateMessage.create()
                 .beforeData(maps[0])
                 .afterData(maps[1]);
 
         updateMessage.tableId(event.getTableId())
-                .tableName(tableSchema.tableName())
-                .schema(tableSchema.tableSchema())
+                .tableName(tableSchema.getTableName())
+                .schema(tableSchema.getTableSchema())
                 .action(ACTION);
 
         return updateMessage;

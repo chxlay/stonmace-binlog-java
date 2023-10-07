@@ -10,7 +10,7 @@ import java.util.List;
  * 连接监听的是MySQL 的主服务器
  *
  * @author Alay
- * @date 2022-11-14 13:06
+ * @since 2022-11-14 13:06
  */
 @Setter
 @ConfigurationProperties(prefix = "xtechcn.binlog")

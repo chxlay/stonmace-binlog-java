@@ -6,7 +6,7 @@ import lombok.Getter;
  * 表重命名 事件
  *
  * @author Alay
- * @date 2022-11-14 13:18
+ * @since 2022-11-14 13:18
  */
 @Getter
 public class RenameMessage extends BinlogMessage {
@@ -20,7 +20,7 @@ public class RenameMessage extends BinlogMessage {
     private String afterTable;
 
 
-    public static RenameMessage build() {
+    public static RenameMessage create() {
         return new RenameMessage();
     }
 

@@ -1,13 +1,16 @@
 package com.stonmace.common.binlog.config;
 
 import com.stonmace.common.binlog.component.DefBinlogListener;
-import com.stonmace.common.binlog.component.TableSchemaManager;
 import com.stonmace.common.binlog.core.process.*;
-import com.xtechcn.common.binlog.core.process.*;
 import com.stonmace.common.binlog.core.publisher.DefaultEventMessagePublisher;
 import com.stonmace.common.binlog.core.publisher.DelegatingMessagePublisher;
 import com.stonmace.common.binlog.core.publisher.MessagePublisher;
+import com.stonmace.common.binlog.core.table.InMemorySchemaManager;
+import com.stonmace.common.binlog.core.table.InRedisSchemaManage;
+import com.stonmace.common.binlog.core.table.SchemaStatement;
+import com.stonmace.common.binlog.core.table.TableSchemaManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -15,15 +18,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.cache.CacheKeyPrefix;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
+ * 自动配置类
+ *
  * @author Alay
- * @date 2022-11-14 13:08
+ * @since 2022-11-14 13:08
  */
-
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-@ComponentScan(value = {"com.xtechcn.common.binlog.component"})
+@ComponentScan(value = {"com.stonmace.common.binlog.component"})
 @EnableConfigurationProperties(IBinlogProperties.class)
 public class BinlogAutoConfiguration {
 
@@ -32,6 +38,9 @@ public class BinlogAutoConfiguration {
 
     /**
      * binlog 启动器
+     *
+     * @param eventListener
+     * @return
      */
     @Bean
     @ConditionalOnMissingBean
@@ -39,17 +48,33 @@ public class BinlogAutoConfiguration {
         return new IBinLogRunner(eventListener, binlogProperties);
     }
 
+
     @Bean
-    public TableSchemaManager tableSchemaManager() {
-        return new TableSchemaManager(binlogProperties);
+    public SchemaStatement schemaStatement(IBinlogProperties binlogProperties) {
+        return new SchemaStatement(binlogProperties);
     }
+
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnBean(value = {RedisTemplate.class})
+    public TableSchemaManager tableSchemaManager(RedisTemplate redisTemplate, CacheKeyPrefix cacheKeyPrefix, SchemaStatement schemaStatement) {
+        return new InRedisSchemaManage(redisTemplate, cacheKeyPrefix, schemaStatement);
+    }
+
+    @Bean
+    @Order
+    @ConditionalOnMissingBean
+    public TableSchemaManager tableSchemaManager(SchemaStatement schemaStatement) {
+        return new InMemorySchemaManager(schemaStatement);
+    }
+
 
     /**
      * 日志事件消息推送，这个是默认实现，实际使用中请替换，使用 DelegatingMessagePublisher 优势在于可以同时包装多种消息推送事件
      */
     @Bean
-    @Order
-    @ConditionalOnMissingBean(value = MessagePublisher.class)
+    @ConditionalOnMissingBean
     public MessagePublisher messagePublisher() {
         // 默认发布事件
         DefaultEventMessagePublisher defaultPublisher = new DefaultEventMessagePublisher(context);

@@ -10,7 +10,7 @@ import java.util.Comparator;
  * 事件处理器
  *
  * @author Alay
- * @date 2022-11-15 11:31
+ * @since 2022-11-15 11:31
  */
 public interface BinlogEventProcess<T> extends Comparator<Ordered>, Ordered{
     /**

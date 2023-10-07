@@ -9,7 +9,7 @@ import java.util.Map;
  * 插入数据事件消息
  *
  * @author Alay
- * @date 2022-11-14 16:20
+ * @since 2022-11-14 16:20
  */
 @Setter
 public class InsertMessage extends BinlogMessage {
@@ -20,7 +20,7 @@ public class InsertMessage extends BinlogMessage {
     private Map<String, Serializable> insertData;
 
 
-    public static InsertMessage build() {
+    public static InsertMessage create() {
         return new InsertMessage();
     }
 

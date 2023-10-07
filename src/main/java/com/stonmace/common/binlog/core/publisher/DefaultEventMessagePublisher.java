@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationEvent;
  * Spring 事件发送实现方案（默认实现方案）
  *
  * @author Alay
- * @date 2022-11-17 20:23
+ * @since 2022-11-17 20:23
  */
 @RequiredArgsConstructor
 public class DefaultEventMessagePublisher implements MessagePublisher {

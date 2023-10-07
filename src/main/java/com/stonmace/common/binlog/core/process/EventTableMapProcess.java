@@ -2,9 +2,9 @@ package com.stonmace.common.binlog.core.process;
 
 import com.github.shyiko.mysql.binlog.event.EventType;
 import com.github.shyiko.mysql.binlog.event.TableMapEventData;
-import com.stonmace.common.binlog.component.TableSchemaManager;
 import com.stonmace.common.binlog.config.IBinlogProperties;
 import com.stonmace.common.binlog.core.message.BinlogMessage;
+import com.stonmace.common.binlog.core.table.TableSchemaManager;
 import com.stonmace.common.binlog.model.TableSchema;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
  * INSERT / UPDATE / DELETE 将会触发此事件
  *
  * @author Alay
- * @date 2022-11-15 11:35
+ * @since 2022-11-15 11:35
  */
 @RequiredArgsConstructor
 public class EventTableMapProcess implements BinlogEventProcess<TableMapEventData> {
@@ -33,7 +33,7 @@ public class EventTableMapProcess implements BinlogEventProcess<TableMapEventDat
         TableMapEventData mapEventData = eventData;
         // tableId 并非表名
         long tableId = mapEventData.getTableId();
-        boolean hasCache = tableSchemaManager.hasCache(tableId);
+        boolean hasCache = tableSchemaManager.hasSchema(tableId);
 
         // 此表已经不是第一次触发该事件了，不需要重复的处理做准备的工作
         if (hasCache) return null;
@@ -48,9 +48,10 @@ public class EventTableMapProcess implements BinlogEventProcess<TableMapEventDat
         if (needProcess) return null;
 
         // 表结构对象封装
-        TableSchema tableSchema = tableSchemaManager.queryTableSchema(tableId, database, tableName);
+        TableSchema tableSchema = tableSchemaManager.findSchema(database, tableName);
+        tableSchema.setTableId(tableId);
 
-        tableSchemaManager.cacheTable(tableSchema);
+        tableSchemaManager.addSchema(tableSchema);
 
         return null;
     }

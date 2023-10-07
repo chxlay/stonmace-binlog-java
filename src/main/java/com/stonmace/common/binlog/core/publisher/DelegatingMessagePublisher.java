@@ -10,7 +10,7 @@ import java.util.List;
  * 消息发送(如果想同时使用多种消息发送器，进行消息推送，请注入此对象进行包装委托处理)
  *
  * @author Alay
- * @date 2023-05-25 13:07
+ * @since 2023-05-25 13:07
  */
 public class DelegatingMessagePublisher implements MessagePublisher {
 

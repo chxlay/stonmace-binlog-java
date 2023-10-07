@@ -12,7 +12,7 @@ import java.util.Map;
  * 删除数据事件 消息解析
  *
  * @author Alay
- * @date 2022-11-14 17:17
+ * @since 2022-11-14 17:17
  */
 public class DeleteEventParser implements BinlogEventParser<DeleteRowsEventData, DeleteMessage> {
     private static final String ACTION = "DELETE";
@@ -26,12 +26,12 @@ public class DeleteEventParser implements BinlogEventParser<DeleteRowsEventData,
         List<Serializable[]> deleteRows = event.getRows();
 
         // 删除的数据转 Map
-        Map<String, Serializable> insertData = this.parseTableData2Map(tableSchema.columnNames(), deleteRows);
+        Map<String, Serializable> insertData = this.parseTableData2Map(tableSchema.getColumnNames(), deleteRows);
 
-        DeleteMessage deleteMessage = DeleteMessage.build().deleteData(insertData);
+        DeleteMessage deleteMessage = DeleteMessage.create().deleteData(insertData);
         deleteMessage.tableId(event.getTableId())
-                .tableName(tableSchema.tableName())
-                .schema(tableSchema.tableSchema())
+                .tableName(tableSchema.getTableName())
+                .schema(tableSchema.getTableSchema())
                 .action(ACTION);
 
         return deleteMessage;

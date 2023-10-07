@@ -4,7 +4,7 @@ package com.stonmace.common.binlog.constant;
  * 常量
  *
  * @author Alay
- * @date 2022-11-14 15:47
+ * @since 2022-11-14 15:47
  */
 public interface BinlogConst {
     /**

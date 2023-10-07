@@ -12,7 +12,7 @@ import java.util.Map;
  * Event 解析器
  *
  * @author Alay
- * @date 2022-11-14 15:23
+ * @since 2022-11-14 15:23
  */
 public interface BinlogEventParser<E extends EventData, M extends BinlogMessage> {
 

@@ -9,7 +9,7 @@ import java.util.Map;
  * 更新数据事件消息
  *
  * @author Alay
- * @date 2022-11-14 16:02
+ * @since 2022-11-14 16:02
  */
 @Getter
 public class UpdateMessage extends BinlogMessage {
@@ -22,7 +22,7 @@ public class UpdateMessage extends BinlogMessage {
      */
     private Map<String, Serializable> afterData;
 
-    public static UpdateMessage build() {
+    public static UpdateMessage create() {
         return new UpdateMessage();
     }
 

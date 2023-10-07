@@ -2,15 +2,15 @@ package com.stonmace.common.binlog.core.process;
 
 import com.github.shyiko.mysql.binlog.event.EventType;
 import com.github.shyiko.mysql.binlog.event.WriteRowsEventData;
-import com.stonmace.common.binlog.component.TableSchemaManager;
 import com.stonmace.common.binlog.core.message.InsertMessage;
 import com.stonmace.common.binlog.core.parser.InsertEventParser;
+import com.stonmace.common.binlog.core.table.TableSchemaManager;
 import com.stonmace.common.binlog.model.TableSchema;
 import lombok.RequiredArgsConstructor;
 
 /**
  * @author Alay
- * @date 2022-11-15 11:38
+ * @since 2022-11-15 11:38
  */
 @RequiredArgsConstructor
 public class EventInsertRowProcess implements BinlogEventProcess<WriteRowsEventData> {
@@ -26,7 +26,7 @@ public class EventInsertRowProcess implements BinlogEventProcess<WriteRowsEventD
     @Override
     public InsertMessage process(WriteRowsEventData eventData) {
         // 表结构数据获取
-        TableSchema cacheSchema = tableSchemaManager.getCacheSchema(eventData.getTableId());
+        TableSchema cacheSchema = tableSchemaManager.findSchema(eventData.getTableId());
         // 解析插入的数据事件
         return insertEventParser.parseEvent(eventData, cacheSchema);
     }
