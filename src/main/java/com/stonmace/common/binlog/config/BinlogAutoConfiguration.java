@@ -32,9 +32,6 @@ public class BinlogAutoConfiguration {
 
     /**
      * binlog 启动器
-     *
-     * @param eventListener
-     * @return
      */
     @Bean
     @ConditionalOnMissingBean
@@ -47,13 +44,16 @@ public class BinlogAutoConfiguration {
         return new TableSchemaManager(binlogProperties);
     }
 
-
+    /**
+     * 日志事件消息推送，这个是默认实现，实际使用中请替换，使用 DelegatingMessagePublisher 优势在于可以同时包装多种消息推送事件
+     */
     @Bean
     @Order
     @ConditionalOnMissingBean(value = MessagePublisher.class)
     public MessagePublisher messagePublisher() {
         // 默认发布事件
         DefaultEventMessagePublisher defaultPublisher = new DefaultEventMessagePublisher(context);
+        // 这里使用了委托者包装处理，这种方式优势在于可以同时多种方式推送事件消息
         return new DelegatingMessagePublisher(defaultPublisher);
     }
 
